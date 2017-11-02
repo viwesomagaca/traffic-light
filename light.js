@@ -1,87 +1,81 @@
 var Light = function(id, color) {
- var clear;
-    //get the target element to render the light into
-    var elem = document.getElementById(id);
-    // elem.classList.add('light-background');
+  var stopBlink;
+  //get the target element to render the light into
+  var elem = document.getElementById(id);
+  // elem.classList.add('light-background');
 
-    //append a div into the target element
-    var lightElem = document.createElement('div');
-    lightElem.classList.add('light');
-    lightElem.classList.add(color);
-    elem.appendChild(lightElem);
+  //append a div into the target element
+  var lightElem = document.createElement('div');
+  lightElem.classList.add('light');
+  lightElem.classList.add(color);
+  elem.appendChild(lightElem);
 
 
-    this.on = function(){
-           // add the switch the light on logic here
-           lightElem.classList.add('on');
-       };
+  this.on = function() {
+    // add the switch the light on logic here
+    lightElem.classList.add('on');
+  };
 
-       this.off = function(){
-          // add the switch the light off logic here
-            lightElem.classList.remove('on');
-            clearInterval(clear);
-      };
+  this.off = function() {
+    // add the switch the light off logic here
+    lightElem.classList.remove('on');
+    clearInterval(stopBlink);
+  };
 
-this.blink = function(){
-  clear = setInterval(function(){
+  this.blink = function() {
+    stopBlink = setInterval(function() {
 
-    greenLight.on();
-    setTimeout(function(){
-      greenLight.off();
-    } ,3000);
-
-    orangeLight.on();
-    setTimeout(function(){
-      orangeLight.off();
-    } ,3000);
-
-    redLight.on();
-    setTimeout(function(){
-      redLight.off();
-    } ,3000);
-  },2000)
-}
+      light.on();
+      ready.on();
+      stop.on();
+      setTimeout(function() {
+        light.off();
+        ready.off();
+        stop.off();
+      }, 100);
+    }, 300)
+  };
 }
 
 
-var redLight = new Light("light",'red');
-var orangeLight = new Light("light",'orange');
-var greenLight = new Light("light",'green');
+var stop= new Light("light", 'red');
+var ready = new Light("light", 'orange');
+var light = new Light("light", 'green');
 
 
-var counter = 0
+var counter = 0;
 
 var seconds = document.querySelector('.counter');
 
-setInterval(function(){
+setInterval(function() {
   seconds.innerHTML = counter++;
 
-if(counter >=2 && counter < 10){
-  greenLight.on();
-  orangeLight.off();
-  redLight.off();
-} else
+  if (counter >= 2 && counter < 8) {
+    light.on();
+    ready.off();
+    stop.off();
+  } else
 
-if (counter >= 10 && counter < 20) {
-  redLight.off();
-  orangeLight.on();
-  greenLight.off();
-} else
+  if (counter >= 8 && counter < 16) {
+    stop.off();
+    ready.on();
+    light.off();
+  } else
 
-if (counter >=20 && counter < 30) {
-  redLight.on();
-  orangeLight.off();
-  greenLight.off();
-} else
-if (counter >=30 && counter < 40) {
-  redLight.blink();
-  orangeLight.blink();
-  redLight.blink();
+  if (counter >= 16 && counter < 24) {
+    stop.on();
+    ready.off();
+    light.off();
+  } else
+  if (counter >= 24 && counter < 32) {
+    stop.blink();
+    ready.blink();
+    stop.blink();
 
-}else if (counter == 40) {
-  counter = 0;
-  redLight.off();
-  orangeLight.off();
-  greenLight.off();
-}
-},600);
+  } else if (counter === 32) {
+    counter = 0;
+    stop.off();
+    ready.off();
+    light.off();
+  }
+}, 600)
